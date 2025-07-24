@@ -1,0 +1,61 @@
+---
+- name: Configure my vmlab
+  hosts: vmlab
+  become: yes
+  vars:
+    seneca_id: iconcon
+
+  tasks:
+    - name: Set hostname to Seneca ID
+      hostname:
+        name: "{{ seneca_id }}"
+
+    - name: Update apache to latest
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Install EPEL repository
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Remove 'tree' package
+      yum:
+        name: tree
+        state: absent
+
+    - name: Create a new user with my Seneca_ID with sudo access
+      user:
+        name: "{{ seneca_id }}"
+        state: present
+        shell: /bin/bash
+        groups: wheel
+        append: yes
+        create_home: yes
+
+    - name: Create .ssh directory for the created user
+      file:
+        path: "/home/{{ seneca_id }}/.ssh"
+        state: directory
+        owner: "{{ seneca_id }}"
+        group: "{{ seneca_id }}"
+        mode: '0700'
+
+    - name: Copy SSH public key
+      copy:
+        src: ~/.ssh/id_rsa.pub
+        dest: "/home/{{ seneca_id }}/.ssh/authorized_keys"
+        owner: "{{ seneca_id }}"
+        group: "{{ seneca_id }}"
+        mode: '0600'
+
+    - name: Setup directory structure for OPS445 lab
+      file:
+        path: "/home/{{ seneca_id }}/ops445/lab{{ item }}"
+        state: directory
+        owner: "{{ seneca_id }}"
+        group: "{{ seneca_id }}"
+        mode: '0755'
+      loop: "{{ range(1, 9) | list }}"
+
