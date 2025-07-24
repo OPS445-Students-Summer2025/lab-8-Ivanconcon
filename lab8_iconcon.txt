@@ -1,0 +1,40 @@
+
+PLAY [Configure myvmlab] *******************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vmlab]
+
+TASK [Set hostname to Seneca ID] ***********************************************
+ok: [vmlab]
+
+TASK [Update apache to latest] *************************************************
+ok: [vmlab]
+
+TASK [Install EPEL repository] *************************************************
+ok: [vmlab]
+
+TASK [Remove 'tree' package] ***************************************************
+ok: [vmlab]
+
+TASK [Create a new user with my Seneca_ID with sudo access] ********************
+ok: [vmlab]
+
+TASK [Create .ssh directory for the created user] ******************************
+ok: [vmlab]
+
+TASK [Copy SSH public key] *****************************************************
+ok: [vmlab]
+
+TASK [Setup directory structure for OPS445 lab] ********************************
+ok: [vmlab] => (item=1)
+ok: [vmlab] => (item=2)
+ok: [vmlab] => (item=3)
+ok: [vmlab] => (item=4)
+ok: [vmlab] => (item=5)
+ok: [vmlab] => (item=6)
+ok: [vmlab] => (item=7)
+ok: [vmlab] => (item=8)
+
+PLAY RECAP *********************************************************************
+vmlab                      : ok=9    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
